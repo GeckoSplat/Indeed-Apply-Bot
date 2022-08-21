@@ -47,9 +47,16 @@ class EasyApplyIndeed:
         elements = ['//*[@id="filter-radius"]', '//*[@id="filter-radius-menu"]/li[2]/a', '//*[@id="resultsCol"]/div[3]/div[4]/div[1]/span[2]/a']
 
         for element in elements:
-            self.driver.implicitly_wait(2)
-            filt = self.driver.find_element(By.XPATH, element)
-            filt.click()
+            try:
+                self.driver.implicitly_wait(2)
+                filt = self.driver.find_element(By.XPATH, element)
+                filt.click()
+            except NoSuchElementException:
+                print('Handled No Such Element error')
+                pass
+
+            continue
+
 
     def interact(self):
         time.sleep(5)     
@@ -93,6 +100,7 @@ if  __name__ == '__main__':
         bot.apply()
 
     # TO DO need to figure out login / beat captcha   
+    # click through apply process 
     
 
 
