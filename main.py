@@ -64,13 +64,13 @@ class EasyApplyIndeed:
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
                 items = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton').click()
             except NoSuchElementException : 
-                print('negated No Such Element error')
+                print('Handled No Such Element error')
                 pass
             except StaleElementReferenceException:
-                print('negated Stale Element error')
+                print('Handled Stale Element error')
                 pass
             except ElementClickInterceptedException:
-                print ('negated Element Click Intercepted error')
+                print ('Handled Element Click Intercepted error')
                 pass
             
                 continue
@@ -92,7 +92,7 @@ if  __name__ == '__main__':
         bot = EasyApplyIndeed(data)
         bot.apply()
 
-    # TO DO need to figure out login / beat capcha VID ON THIS   <<<<< this next
+    # TO DO need to figure out login / beat captcha   
     
 
 
