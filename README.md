@@ -1,2 +1,2 @@
 # Indeed-Apply-Bot
-Automated job application bot for indeed.com , written in Python using Selenium. 
+Bot to automatically apply to jobs on Indeed.com, written in Python using Selenium.
