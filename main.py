@@ -4,7 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, NoSuchElementException, StaleElementReferenceException
-from selenium.webdriver.common.action_chains import ActionChains
 import time
 import json
 
@@ -44,11 +43,11 @@ class EasyApplyIndeed:
 
     def filter(self):
         self.driver.implicitly_wait(2)
-        elements = ['//*[@id="filter-radius"]', '//*[@id="filter-radius-menu"]/li[2]/a', '//*[@id="resultsCol"]/div[3]/div[4]/div[1]/span[2]/a']
+        elements = ['//*[@id="filter-radius"]', '//*[@id="filter-radius-menu"]/li[2]/a', '//*[@id="filter-dateposted"]', '//*[@id="filter-dateposted-menu"]/li[2]/a']
 
         for element in elements:
             try:
-                self.driver.implicitly_wait(2)
+                self.driver.implicitly_wait(1)
                 filt = self.driver.find_element(By.XPATH, element)
                 filt.click()
             except NoSuchElementException:
@@ -84,7 +83,7 @@ class EasyApplyIndeed:
 
 
 
-    def apply(self):  # this will be last function. call all funcs in order here    
+    def apply(self):  
         self.login()
         self.search()
         self.filter()
@@ -99,8 +98,8 @@ if  __name__ == '__main__':
         bot = EasyApplyIndeed(data)
         bot.apply()
 
-    # TO DO need to figure out login / beat captcha   
-    # click through apply process 
+  
+    # add click through apply process 
     
 
 
