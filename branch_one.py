@@ -67,7 +67,6 @@ class EasyApplyIndeed:
             except ElementClickInterceptedException:
                 print ('Handled Element Click Intercepted error')
                 pass
-            
                 continue
 
     def login(self):
@@ -90,7 +89,7 @@ class EasyApplyIndeed:
             time.sleep(3)
             get_that_job = self.driver.find_element(By.CLASS_NAME,'ia-continueButton ia-ContactInfo-continue css-vw73h2 e8ju0x51')
             get_that_job.click()
-            print (' user input needed ')
+            print ('USER INPUT NEEDED')
             
         except NoSuchElementException : 
                 print('Handled No Such Element error, additional input needed')
@@ -101,7 +100,7 @@ class EasyApplyIndeed:
         except ElementClickInterceptedException:
                 print ('Handled Element Click Intercepted error, additional input needed')
                 pass
-            
+        print ('END OF RUN')
                    
 
     def apply(self):    
