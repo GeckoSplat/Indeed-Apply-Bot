@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, NoSuchElementException, StaleElementReferenceException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, NoSuchElementException, StaleElementReferenceException
 import time
 import json
 
@@ -32,7 +32,7 @@ class EasyApplyIndeed:
 
     def filter(self):
         self.driver.implicitly_wait(1)
-        elements = ['//*[@id="filter-radius"]', '//*[@id="filter-radius-menu"]/li[2]/a', '//*[@id="filter-dateposted"]', '//*[@id="filter-dateposted-menu"]/li[2]/a']
+        elements = ['//*[@id="filter-radius"]', '//*[@id="filter-radius-menu"]/li[3]/a', '//*[@id="filter-dateposted"]', '//*[@id="filter-dateposted-menu"]/li[2]/a']
 
         for element in elements:
             try:     
@@ -44,22 +44,19 @@ class EasyApplyIndeed:
             except NoSuchElementException:
                 print('Handled No Such Element error')
                 pass
-
-
             continue
-
+   
     def interact(self):
-        time.sleep(3)     
+        time.sleep(5)     
         checklist = []
         checklist = self.driver.find_elements(By.CLASS_NAME,'job_seen_beacon')
         print(len(checklist))
         for items in checklist:
             try:
-                self.driver.implicitly_wait(1)
                 items.click()
                 self.driver.implicitly_wait(2)
                 items = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
                 items = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton').click()
             except NoSuchElementException : 
                 print('Handled No Such Element error')
@@ -70,14 +67,13 @@ class EasyApplyIndeed:
             except ElementClickInterceptedException:
                 print ('Handled Element Click Intercepted error')
                 pass
-            except TimeoutException:
-                print ('TimeoutException error')
+            
                 continue
 
     def login(self):
         time.sleep(1)
         self.driver.implicitly_wait(7)
-        login_email = self.driver.find_element(By.CLASS_NAME,'css-sma1ic e1jgz0i3') # problem here 
+        login_email = self.driver.find_element(By.ID,'ifl-InputFormField-3')  
         login_email.clear()
         login_email.send_keys(self.email)
         time.sleep(5)    
