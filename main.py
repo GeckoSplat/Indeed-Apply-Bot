@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import json
+import logging
 
 
 class EasyApplyIndeed:
