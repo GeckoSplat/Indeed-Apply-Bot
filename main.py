@@ -61,11 +61,10 @@ class EasyApplyIndeed:
                 print('Handled No Such Element error')
    
         time.sleep(5)
-
+   
     def interact(self):
         """Iterates through results. MOST FAILURES ARE HERE. Failures due to unforseen elements appearing on page DOM, changes often so hard to handle exceptions """
              
-        checklist = []
         checklist = self.driver.find_elements(By.CLASS_NAME,'job_seen_beacon')
         print(f'Jobs found {len(checklist)}')
 
@@ -84,50 +83,50 @@ class EasyApplyIndeed:
                 print('Handled No Such Element error')
                 pass
             except StaleElementReferenceException:
-                    for element in checklist[1:]:
-                            try:
-                                element.click()
-                                self.driver.implicitly_wait(2)
-                                element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
-                                element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                                ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                                ActionChains.click()
-                                ActionChains.perform()
-                                time.sleep(1.5)
-                            except StaleElementReferenceException:
-                                print('Handled Stale Element error')
-                                pass
-                            continue
-                    print('Handled Stale Element error')
-                    pass
+                for element in checklist[1:]:
+                    try:
+                        element.click()
+                        self.driver.implicitly_wait(2)
+                        element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
+                        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
+                        element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
+                        ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
+                        ActionChains.click()
+                        ActionChains.perform()
+                        time.sleep(1.5)
+                    except StaleElementReferenceException:
+                        print('Handled Stale Element error')
+                        pass
+                    continue
+                print('Handled Stale Element error')
+                pass
             
             except ElementClickInterceptedException:
-                print ('Handled Element Click Intercepted error')
+                print('Handled Element Click Intercepted error')
                 pass
 
             except TimeoutException:
-                    for element in checklist[1:]:
-                            try:
-                                element.click()
-                                self.driver.implicitly_wait(2)
-                                element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
-                                element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                                ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                                ActionChains.click()
-                                ActionChains.perform()
-                                time.sleep(1.5)
-                            except StaleElementReferenceException:
-                                print('Handled Stale Element error')
-                                pass
-                            continue
-                    print('Handled Timeout error')    
+                for element in checklist[1:]:
+                    try:
+                        element.click()
+                        self.driver.implicitly_wait(2)
+                        element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
+                        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
+                        element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
+                        ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
+                        ActionChains.click()
+                        ActionChains.perform()
+                        time.sleep(1.5)
+                    except StaleElementReferenceException:
+                        print('Handled Stale Element error')
+                        pass
+                    continue
+                print('Handled Timeout error')    
             continue 
 
     def login(self):
         """Logs in when suitable job is clicked . Do this low down in order of functions as Captcha often presented at this point ."""
-        
+
         time.sleep(1)
         self.driver.implicitly_wait(7)
         login_email = self.driver.find_element(By.ID,'ifl-InputFormField-3')  
@@ -144,7 +143,7 @@ class EasyApplyIndeed:
 
     def last_stage(self):
         """Gets as far as uploading a CV. I thought it best to start manually checking things at this point."""
-        
+
         try:
             time.sleep(3)
             get_that_job = self.driver.find_element(By.CLASS_NAME,'ia-continueButton ia-ContactInfo-continue css-vw73h2 e8ju0x51')
@@ -161,7 +160,7 @@ class EasyApplyIndeed:
             pass
         print('END OF RUN')
                    
-    def apply(self):
+    def apply(self):    
         self.search()
         self.filter()
         self.interact()
@@ -174,4 +173,4 @@ if  __name__ == '__main__':
         config = json.load(config_file)
 
         bot = EasyApplyIndeed(config)
-       # bot.apply()
+        bot.apply()
