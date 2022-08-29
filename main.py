@@ -76,8 +76,8 @@ class EasyApplyIndeed:
                 element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
                 element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                ActionChains.click()
+                ActionChains(self.driver).move_to_element(element)
+                ActionChains.click(self.driver)
                 ActionChains.perform()
                 time.sleep(1.5)
             except NoSuchElementException : 
@@ -91,8 +91,8 @@ class EasyApplyIndeed:
                         element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
                         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
                         element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                        ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                        ActionChains.click()
+                        ActionChains(self.driver).move_to_element(element)
+                        ActionChains.click(self.driver)
                         ActionChains.perform()
                         time.sleep(1.5)
                     except StaleElementReferenceException:
@@ -114,8 +114,8 @@ class EasyApplyIndeed:
                         element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
                         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'ia-IndeedApplyButton')))
                         element = self.driver.find_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                        ActionChains(self.driver).move_to_element(By.CLASS_NAME,'ia-IndeedApplyButton')
-                        ActionChains.click()
+                        ActionChains(self.driver).move_to_element(element)
+                        ActionChains.click(self.driver)
                         ActionChains.perform()
                         time.sleep(1.5)
                     except StaleElementReferenceException:
