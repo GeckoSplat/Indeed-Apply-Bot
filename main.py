@@ -57,16 +57,10 @@ class EasyApplyIndeed:
             '//*[@id="filter-dateposted-menu"]/li[2]/a'
         ]
 
-        for element in elements:
-            try:     
-                filt = self.driver.find_element(By.XPATH, element)
-                filt.click()
-            except StaleElementReferenceException:
-                print('Handled Stale Element error')    
-            except NoSuchElementException:
-                print('Handled No Such Element error')
-   
-        time.sleep(5)
+        for element in elements:     
+            filt = self.driver.find_element(By.XPATH, element)
+            filt.click()
+        time.sleep(3)
    
     def interact(self):
         """Iterates through results. MOST FAILURES ARE HERE. Failures due to unforseen elements appearing on page DOM, changes often so hard to handle exceptions """
@@ -84,7 +78,6 @@ class EasyApplyIndeed:
                 self.driver.execute_script("(arguments[0]).click();", element)
                 time.sleep(1.5)
             except NoSuchElementException : 
-                print('Handled No Such Element error')
                 pass
             except StaleElementReferenceException:
                 for element in checklist[1:]:
@@ -97,32 +90,25 @@ class EasyApplyIndeed:
                         self.driver.execute_script("(arguments[0]).click();", element)
                         time.sleep(1.5)
                     except StaleElementReferenceException:
-                        print('Handled Stale Element error')
                         pass
-                    continue
-                print('Handled Stale Element error')
-                pass
-            
-            except ElementClickInterceptedException:
-                print('Handled Element Click Intercepted error')
-                pass
-
-            except TimeoutException:
-                for element in checklist[1:]:
-                    try:
-                        element.click()
-                        self.driver.implicitly_wait(2)
-                        element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')))
-                        element = self.driver.find_element(By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')
-                        self.driver.execute_script("(arguments[0]).click();", element)
-                        time.sleep(1.5)
-                    except StaleElementReferenceException:
-                        print('Handled Stale Element error')
+                    except ElementClickInterceptedException:
                         pass
-                    continue
-                print('Handled Timeout error')    
-            continue 
+                    except TimeoutException:
+                        for element in checklist[1:]:
+                            try:
+                                element.click()
+                                self.driver.implicitly_wait(2)
+                                element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
+                                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')))
+                                element = self.driver.find_element(By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')
+                                self.driver.execute_script("(arguments[0]).click();", element)
+                                time.sleep(1.5)
+                            except StaleElementReferenceException:
+                                pass
+                            except ElementClickInterceptedException:
+                                pass
+                            except TimeoutException:    
+                                continue 
 
     def login(self):
         """Logs in when suitable job is clicked . Do this low down in order of functions as Captcha often presented at this point ."""
@@ -150,15 +136,12 @@ class EasyApplyIndeed:
             get_that_job.click()
             print('USER INPUT NEEDED')
         except NoSuchElementException: 
-            print('Handled No Such Element error, additional input needed')
             pass
         except StaleElementReferenceException:
-            print('Handled Stale Element error, additional input needed')
             pass
         except ElementClickInterceptedException:
-            print('Handled Element Click Intercepted error, additional input needed')
             pass
-        print('END OF RUN')
+            print('END OF RUN')
                    
     def apply(self):    
         self.search()
