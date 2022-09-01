@@ -4,11 +4,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, NoSuchElementException, StaleElementReferenceException,TimeoutException
-from selenium.webdriver.common.action_chains import ActionChains
 import time
 import json
 import logging
 
+
+logging.basicConfig(filename="botlogfile.log",
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filemode='a')
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 class EasyApplyIndeed:
 
@@ -31,7 +36,7 @@ class EasyApplyIndeed:
         self.driver.maximize_window()  
         self.driver.get('https://uk.indeed.com/?from=gnav-jobsearch--jasx')
         self.driver.implicitly_wait(2)
-        time.sleep(4)
+        time.sleep(2)
 
         search_keywords = self.driver.find_element(By.CSS_SELECTOR,'input#text-input-what') 
         search_keywords.send_keys(self.keywords)        
@@ -122,8 +127,8 @@ class EasyApplyIndeed:
     def login(self):
         """Logs in when suitable job is clicked . Do this low down in order of functions as Captcha often presented at this point ."""
 
-        time.sleep(1)
-        self.driver.implicitly_wait(7)
+        time.sleep(2)
+        self.driver.implicitly_wait(4)
         login_email = self.driver.find_element(By.XPATH,'//*[@id="ifl-InputFormField-3"]')  
         login_email.clear()
         login_email.send_keys(self.email)
@@ -166,6 +171,5 @@ class EasyApplyIndeed:
 if  __name__ == '__main__':
     with open('config.json') as config_file:
         config = json.load(config_file)
-
         bot = EasyApplyIndeed(config)
-        bot.apply()
+        bot.apply()  
