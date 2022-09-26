@@ -52,7 +52,7 @@ class EasyApplyIndeed:
         
         elements = [
             '//*[@id="filter-radius"]',
-            '//*[@id="filter-radius-menu"]/li[3]/a', 
+            '//*[@id="filter-radius-menu"]/li[2]/a', 
             '//*[@id="filter-dateposted"]', 
             '//*[@id="filter-dateposted-menu"]/li[2]/a'
         ]
@@ -71,7 +71,7 @@ class EasyApplyIndeed:
         for element in checklist:
             try:
                 element.click()
-                self.driver.implicitly_wait(2)
+                self.driver.implicitly_wait(1)
                 element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')))
                 element = self.driver.find_element(By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')
@@ -80,6 +80,7 @@ class EasyApplyIndeed:
             except NoSuchElementException : 
                 pass
             except StaleElementReferenceException:
+                self.driver.switchTo().defaultContent()
                 for element in checklist[1:]:
                     try:
                         element.click()
@@ -94,6 +95,7 @@ class EasyApplyIndeed:
                     except ElementClickInterceptedException:
                         pass
                     except TimeoutException:
+                        self.driver.switchTo().defaultContent()
                         for element in checklist[1:]:
                             try:
                                 element.click()
