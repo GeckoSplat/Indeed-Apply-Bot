@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 import time
 import json
 import logging
+import pyautogui
 
 
 logging.basicConfig(filename="botlogfile.log",
@@ -35,12 +36,11 @@ class EasyApplyIndeed:
 
         self.driver.maximize_window()  
         self.driver.get('https://uk.indeed.com/?from=gnav-jobsearch--jasx')
-        self.driver.implicitly_wait(2)
         time.sleep(2)
 
         search_keywords = self.driver.find_element(By.CSS_SELECTOR,'input#text-input-what') 
         search_keywords.send_keys(self.keywords)        
-        time.sleep(3)
+        time.sleep(1)
 
         search_location = self.driver.find_element(By.CSS_SELECTOR,'input#text-input-where')
         search_location.send_keys(self.location)
@@ -62,7 +62,7 @@ class EasyApplyIndeed:
             filt.click()
         time.sleep(3)
    
-    def interact(self):
+    def interact(self):#TODO sort try catches
         """Iterates through results. MOST FAILURES ARE HERE. Failures due to unforseen elements appearing on page DOM, changes often so hard to handle exceptions """
              
         checklist = self.driver.find_elements(By.CLASS_NAME,'job_seen_beacon')
@@ -71,60 +71,40 @@ class EasyApplyIndeed:
         for element in checklist:
             try:
                 element.click()
-                self.driver.implicitly_wait(1)
-                element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')))
-                element = self.driver.find_element(By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')
-                self.driver.execute_script("(arguments[0]).click();", element)
-                time.sleep(1.5)
-            except NoSuchElementException : 
-                pass
-            except StaleElementReferenceException:
+                time.sleep(2)
+                pyautogui.moveTo(1892,652)
+                time.sleep(2)
+                pyautogui.click()                              
+            except NoSuchElementException:
                 self.driver.switchTo().defaultContent()
                 for element in checklist[1:]:
                     try:
                         element.click()
-                        self.driver.implicitly_wait(2)
-                        element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')))
-                        element = self.driver.find_element(By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')
-                        self.driver.execute_script("(arguments[0]).click();", element)
-                        time.sleep(1.5)
+                        time.sleep(5)
+                        pyautogui.moveTo(1892,652)
+                        pyautogui.click
+                        #self.driver.switchTo().defaultContent()
+                    except NoSuchElementException : 
+                        pass
                     except StaleElementReferenceException:
-                        pass
-                    except ElementClickInterceptedException:
-                        pass
-                    except TimeoutException:
-                        self.driver.switchTo().defaultContent()
-                        for element in checklist[1:]:
-                            try:
-                                element.click()
-                                self.driver.implicitly_wait(2)
-                                element = self.driver.switch_to.frame(self.driver.find_element(By.XPATH,'//*[@id="vjs-container-iframe"]'))
-                                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')))
-                                element = self.driver.find_element(By.CLASS_NAME,'jobsearch-IndeedApplyButton-contentWrapper')
-                                self.driver.execute_script("(arguments[0]).click();", element)
-                                time.sleep(1.5)
-                            except StaleElementReferenceException:
-                                pass
-                            except ElementClickInterceptedException:
-                                pass
-                            except TimeoutException:    
-                                continue 
+                        self.driver.switchTo().defaultContent()          
 
-    def login(self):
+    def login(self):#TODO find last input elements
         """Logs in when suitable job is clicked . Do this low down in order of functions as Captcha often presented at this point ."""
-
-        time.sleep(2)
-        self.driver.implicitly_wait(4)
-        login_email = self.driver.find_element(By.XPATH,'//*[@id="ifl-InputFormField-3"]')  
-        login_email.clear()
-        login_email.send_keys(self.email)
-        time.sleep(5)    
+        try:
+            self.driver.implicitly_wait(8)
+            login_email = self.driver.find_element(By.CSS_SELECTOR,'#ifl-InputFormField-3')
+            login_email.send_keys(self.email)
+        except: NoSuchElementException
+        
+        pyautogui.moveTo(1688,978)
+        pyautogui.click()
+        time.sleep(3)
+        login_email = self.drivers        
+        login_email.send_keys(self.email)    
         login_email.send_keys(Keys.RETURN)
-        time.sleep(7)
-        login_password = self.driver.find_element(By.XPATH,'//*[@id="ifl-InputFormField-46"]')
-        login_password.clear()
+        self.driver.implicitly_wait(7)
+        login_password = self.driver
         login_password.send_keys(self.password)
         time.sleep(2)
         login_password.send_keys(Keys.RETURN)    
