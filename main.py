@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 import time
 import json
 import logging
-import pyautogui
+import pyautogui as pg
 
 
 logging.basicConfig(filename="botlogfile.log",
@@ -47,7 +47,7 @@ class EasyApplyIndeed:
         search_location.send_keys(Keys.RETURN)
         self.driver.implicitly_wait(1)
 
-    def filter(self):
+    def filter(self): # change elements in list here if you want different filter parameters 
         """Filtering rules from dropdown menu's."""
         
         elements = [
@@ -62,34 +62,20 @@ class EasyApplyIndeed:
             filt.click()
         time.sleep(3)
    
-    def interact(self):#TODO sort try catches
-        """Iterates through results. MOST FAILURES ARE HERE. Failures due to unforseen elements appearing on page DOM, changes often so hard to handle exceptions """
+    def interact(self):
+        """Iterates through results."""
              
         checklist = self.driver.find_elements(By.CLASS_NAME,'job_seen_beacon')
         print(f'Jobs found {len(checklist)}')
 
         for element in checklist:
-            try:
-                element.click()
-                time.sleep(2)
-                pyautogui.moveTo(1892,652)
-                time.sleep(2)
-                pyautogui.click()                              
-            except NoSuchElementException:
-                self.driver.switchTo().defaultContent()
-                for element in checklist[1:]:
-                    try:
-                        element.click()
-                        time.sleep(5)
-                        pyautogui.moveTo(1892,652)
-                        pyautogui.click
-                        #self.driver.switchTo().defaultContent()
-                    except NoSuchElementException : 
-                        pass
-                    except StaleElementReferenceException:
-                        self.driver.switchTo().defaultContent()          
-
-    def login(self):#TODO find last input elements
+            element.click()
+            time.sleep(2)
+            pg.moveTo(1892,652)
+            time.sleep(2)
+            pg.click()                              
+        
+    def login(self):
         """Logs in when suitable job is clicked . Do this low down in order of functions as Captcha often presented at this point ."""
         try:
             self.driver.implicitly_wait(8)
@@ -97,40 +83,26 @@ class EasyApplyIndeed:
             login_email.send_keys(self.email)
         except: NoSuchElementException
         
-        pyautogui.moveTo(1688,978)
-        pyautogui.click()
+        pg.moveTo(1688,978)
+        pg.click()
         time.sleep(3)
-        login_email = self.drivers        
-        login_email.send_keys(self.email)    
-        login_email.send_keys(Keys.RETURN)
-        self.driver.implicitly_wait(7)
-        login_password = self.driver
-        login_password.send_keys(self.password)
+        pg.typewrite(self.email)      
+        pg.click()
+        time.sleep(7)
+        pg.moveTo(1682,508)
+        pg.click()
+        pg.typewrite(self.password)
+        pg.moveTo(1915,652)        
         time.sleep(2)
-        login_password.send_keys(Keys.RETURN)    
+        pg.click()
+        print('USER INPUT NEEDED')
 
-    def last_stage(self):
-        """Gets as far as uploading a CV. I thought it best to start manually checking things at this point."""
-
-        try:
-            time.sleep(3)
-            get_that_job = self.driver.find_element(By.CLASS_NAME,'ia-continueButton ia-ContactInfo-continue css-vw73h2 e8ju0x51')
-            get_that_job.click()
-            print('USER INPUT NEEDED')
-        except NoSuchElementException: 
-            pass
-        except StaleElementReferenceException:
-            pass
-        except ElementClickInterceptedException:
-            pass
-            print('END OF RUN')
                    
     def apply(self):    
         self.search()
         self.filter()
         self.interact()
         self.login()
-        self.last_stage()
 
 
 if  __name__ == '__main__':
