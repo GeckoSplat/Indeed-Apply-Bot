@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, NoSuchElementException, StaleElementReferenceException,TimeoutException
+from selenium.common.exceptions import NoSuchElementException, NoSuchElementException
 import time
 import json
 import logging
@@ -96,8 +96,7 @@ class EasyApplyIndeed:
         time.sleep(2)
         pg.click()
         print('USER INPUT NEEDED')
-
-                   
+                  
     def apply(self):    
         self.search()
         self.filter()
